@@ -1,0 +1,40 @@
+name: Convert AIA to APK
+
+on:
+
+  push:
+
+    branches:
+
+      - main
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+
+        uses: actions/setup-java@v2
+
+        with:
+
+          java-version: '11'
+
+      - name: Set up Docker
+
+        uses: docker/setup-docker@v2
+
+      - name: Convert AIA to APK
+
+        run: |
+
+          docker run --rm -v $PWD:/workspace thunkable/app-inventor /bin/bash -c "cd /workspace && ai2cli build-apk -o output.apk NewBallGame.aia"
+
